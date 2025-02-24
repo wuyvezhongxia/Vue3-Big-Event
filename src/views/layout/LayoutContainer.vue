@@ -78,7 +78,7 @@ const onCommand = async (key)=>{
     <el-container>
       <el-header>
         <div>黑马程序员：<strong>{{ userStore.user.nickname || userStore.user.username }}</strong></div>
-        <el-dropdown placement="bottom-end" @command = "onCommand">
+        <el-dropdown placement="left-end" @command = "onCommand">
           <span class="el-dropdown__box">
             <el-avatar :src="userStore.user.user_pic || avatar" />
             <el-icon><CaretBottom /></el-icon>
@@ -99,7 +99,7 @@ const onCommand = async (key)=>{
               >
             </el-dropdown-menu>
           </template>
-        </el-dropdown>
+        </el-dropdown>         
       </el-header>
       <el-main>
         <router-view></router-view>
