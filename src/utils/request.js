@@ -6,7 +6,7 @@ const baseURL = 'http://big-event-vue-api-t.itheima.net'
 const instance = axios.create({
   baseURL,
   timeout: 5000,
-//   headers: {'X-Custom-Header': 'foobar'}
+  // headers: {'Auth': 'foobar'}
 })
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
@@ -17,6 +17,7 @@ instance.interceptors.request.use(function (config) {
     }
     return config;
   }, function (error) {
+    console.log(error);
     return Promise.reject(error);
   });
 // Add a response interceptor
@@ -31,7 +32,7 @@ instance.interceptors.response.use(function (res) {
     })
     return Promise.reject(res.data)
   }, function (err) {
-    // console.log(err)
+    console.log(err)
     ElMessage({
         showClose: true,
         message: err.response.data.message ||'服务异常',
