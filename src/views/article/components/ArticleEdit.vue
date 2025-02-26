@@ -8,7 +8,7 @@ import ChannelSelect from './ChannelSelect.vue'
 import { Plus } from '@element-plus/icons-vue'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
-import { artDelDetailService, artGetDetailService, artPublishService, artUpdateDetailService } from '@/api/article'
+import { artGetDetailService, artPublishService, artUpdateDetailService } from '@/api/article'
 import { ElMessage } from 'element-plus'
 import { baseURL } from '@/utils/request'
 import axios from 'axios'
@@ -81,12 +81,8 @@ const open = async (row) => {
         editorRef.value.setHTML('')
     }
 }
-const delArticle = async (id)=>{
-    await artDelDetailService(id)
-}
 defineExpose({
-    open,
-    delArticle
+    open
 })
 async function imageUrlToFileObject(imageUrl, filename) {
     try {

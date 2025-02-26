@@ -1,10 +1,11 @@
 <script setup>
-import { artGetListService } from '@/api/article.js'
+import { artDelDetailService, artGetListService } from '@/api/article.js'
 import ChannelSelect from './components/ChannelSelect.vue'
 import { Delete,Edit } from '@element-plus/icons-vue'
 import {ref} from 'vue'
 import { formatTime } from '@/utils/format'
 import ArticleEdit from './components/ArticleEdit.vue'
+import { ElMessageBox } from 'element-plus'
 const articleList = ref ([])
 const artTotal = ref(0)
 const loading = ref(false)
@@ -54,9 +55,23 @@ const onSuccess = (type)=>{
 const onEditArticle = row =>{
     articleEditRef.value.open(row)
 }
-const onDelArticle = row=>{
-    articleEditRef.value.delArticle(row.id)
-    getArticleList()
+const onDelArticle = async row=>{
+    try {
+        await ElMessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        });
+        // 用户点击了确定，继续执行删除操作
+        await artDelDetailService(row.id);
+        getArticleList();
+    } catch (error) {
+        if (error === 'cancel') {
+            console.log('用户取消了删除操作');
+        } else {
+            console.error('删除文章时出现错误:', error);
+        }
+    }
 }
 // 当前每页条数--重新渲染
 const onSizeChange = size => {
@@ -70,7 +85,6 @@ const onCurrentChange = page => {
     getArticleList()
 }
 </script>
-
 <template>
     <page-container title="文章管理">
         <template #extra>
